@@ -36,4 +36,4 @@ The results will be like the following
 
 Similar results can be obtained using the LEPS model with harmonics `LEPSHarm`
 
-![LEPSHarm_example](./assets/lepsharm.gif)
+![LEPSHarm_example](./assets/lepsharm.gif) ![LEPS_NEB](./assets/lepsharm_ea.png) 
