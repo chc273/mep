@@ -50,7 +50,7 @@ For comparison, normal NEB using `LEPSHarm` potential with 5 images gives the fo
 
 ![LEPS example](./assets/lepsharm_nocineb.png) ![LEPS_NEB](./assets/lepsharm_ea_nocineb.png) 
 
-With CINEB 
+With CI-NEB 
 
 ![LEPS example](./assets/lepsharm_cineb.png) ![LEPS_NEB](./assets/lepsharm_ea_cineb.png) 
 
