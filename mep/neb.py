@@ -9,8 +9,8 @@ class NEB:
         self.path = path
         self.history = []
         self.stop = False
-        self.energies = []
-        self.forces = []
+        self.energies = [0] * len(self.path)
+        self.forces = [np.zeros_like(self.path[i].data) for i in range(len(self.path))]
 
     def update(self):
         self.energies, self.forces = self.get_neb_energies_forces()
@@ -45,3 +45,9 @@ class NEB:
             callbacks.step_end(i)
         callbacks.opt_end()
         return history
+
+    @property
+    def energy_path(self):
+        energies = np.array([i-self.energies[0][0] for i in self.energies]).ravel()
+        distances = np.cumsum(self.path.image_distances).ravel() / np.sum(self.path.image_distances)
+        return np.array([distances, energies]).T

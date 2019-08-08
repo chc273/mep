@@ -134,6 +134,12 @@ class Path:
     def __repr__(self):
         return str(self)
 
+    def __len__(self):
+        return self.n_images
+
+    def __getitem__(self, index):
+        return self.images[index]
+
     def construct_path(self):
         for i in range(len(self.springs)):
             self.images[i].link_next(self.springs[i])
@@ -144,6 +150,10 @@ class Path:
             raise ValueError('Too many forces, remember the ends are fixed')
         for i, j in zip(self.inner_images, forces):
             i.move(j * delta)
+
+    @property
+    def image_distances(self):
+        return [0] + [np.linalg.norm(i-j) for i, j in zip(self.coords[:-1], self.coords[1:])]
 
     def get_unit_tangents(self, energies=None):
         return [self.get_unit_tangent(i, energies) for i in range(1, self.n_images - 1)]
@@ -184,7 +194,7 @@ class Path:
     @property
     def coords(self):
         return [i.data for i in self.images]
-    
+
     @property
     def inner_coords(self):
         return [i.data for i in self.inner_images]

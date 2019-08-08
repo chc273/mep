@@ -61,3 +61,32 @@ def interpolate_molecule(mol: Molecule, other_mol: Molecule, n: int=5, autosort_
     for x in range(n):
         molecules.append(Molecule(sp, start_coords + vec * x /(n-1), site_properties=mol.site_properties))
     return molecules
+
+
+def plot_energy_path(distances, energies, unit='eV'):
+    """
+    plot energy path
+    Args:
+        distances:
+        energies:
+        unit:
+
+    Returns:
+
+    """
+    import matplotlib.pyplot as plt
+    plt.rcParams['font.family'] = 'Arial'
+    plt.rcParams['font.size'] = 22
+    plt.figure(figsize=(6, 5.5))
+    max_energy = max(energies)
+    min_energy = min(energies)
+    max_ind = np.argmax(energies)
+    energy_range = max_energy - min_energy
+    plt.plot(distances, energies, 'o-', markerfacecolor='w')
+    plt.xlim([0, 1])
+    plt.ylim([min_energy, max_energy + 0.1 * energy_range])
+    plt.plot([0, distances[max_ind]], [max_energy, max_energy], '--')
+    plt.text(distances[max_ind], max_energy, '$E_a=%.2f$ %s' % (max_energy, unit))
+    plt.xlabel('Reaction Coordinates')
+    plt.ylabel('$E$ (%s)' % unit)
+    return plt

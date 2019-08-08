@@ -31,7 +31,7 @@ history = neb.run(verbose=True) # run
 
 The results will be like the following
 
-![LEPS example](./assets/leps.gif)
+![LEPS example](./assets/leps.gif) ![LEPS_NEB](./assets/leps_ea.png) 
 
 
 Similar results can be obtained using the LEPS model with harmonics `LEPSHarm`
