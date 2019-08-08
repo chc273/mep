@@ -20,7 +20,7 @@ from mep.models import LEPS
 leps = LEPS() # Test model 
 op = ScipyOptimizer(leps) # local optimizer for finding local minima
 x0 = op.minimize([1, 4], bounds=[[0, 4], [-2, 4]]).x # minima one
-x1 = op.minimize([3, -1], bounds=[[0, 4], [-2, 4]]).x # minima two
+x1 = op.minimize([3, 1], bounds=[[0, 4], [-2, 4]]).x # minima two
 
 
 path = Path.from_linear_end_points(x0, x1, 101, 1)  # set 101 images, and k=1
@@ -32,3 +32,8 @@ history = neb.run(verbose=True) # run
 The results will be like the following
 
 ![LEPS example](./assets/leps.gif)
+
+
+Similar results can be obtained using the LEPS model with harmonics `LEPSHarm`
+
+![LEPSHarm_example](./assets/lepsharm.gif)
