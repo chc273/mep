@@ -51,6 +51,7 @@ For comparison, normal NEB using `LEPSHarm` potential with 5 images gives the fo
 ![LEPS example](./assets/lepsharm_nocineb.png) ![LEPS_NEB](./assets/lepsharm_ea_nocineb.png) 
 
 With CINEB 
+
 ![LEPS example](./assets/lepsharm_cineb.png) ![LEPS_NEB](./assets/lepsharm_ea_cineb.png) 
 
 We can see that using only 5 images, the CINEB gets `Ea = 3.63 eV`, the same as the one we ran with 101 images!
