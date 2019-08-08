@@ -4,27 +4,41 @@ from mep.callbacks import BasicCallback, StopOnConvergence, CallbackList, Histor
 
 
 class NEB:
-    def __init__(self, model, path):
+    def __init__(self, model, path, climbing=False, n_climbs=3):
         self.model = model
         self.path = path
+        self.climbing = climbing
+        self.n_climbs = n_climbs
         self.history = []
         self.stop = False
         self.energies = [0] * len(self.path)
         self.forces = [np.zeros_like(self.path[i].data) for i in range(len(self.path))]
+        self.model_forces = [np.zeros_like(self.path[i].data) for i in range(len(self.path))]
+        self.middle_tangents = [np.zeros_like(self.path[i].data) for i in range(len(self.path) - 2)]
 
-    def update(self):
-        self.energies, self.forces = self.get_neb_energies_forces()
+    def update(self, climbing=False, indices=None):
+        if climbing:
+            self.get_ci_energies_forces(indices)
+        else:
+            self.get_neb_energies_forces()
 
     def get_neb_energies_forces(self):
         coords = self.path.inner_coords
-        forces = [self.model.predict_force(i) for i in coords]
-        energies = [self.model.predict_energy(i.data) for i in self.path.images]
-        middle_tangents = self.path.get_unit_tangents(energies)
-        f1 = [i-np.sum(i*j)*j for i, j in zip(forces, middle_tangents)]
-        f2 = [i*j for i, j in zip(self.path.spring_forces, middle_tangents)]
-        return energies, [i+j for i, j in zip(f1, f2)]
+        self.model_forces = [self.model.predict_force(i) for i in coords]
+        self.energies = [self.model.predict_energy(i.data) for i in self.path.images]
+        self.middle_tangents = self.path.get_unit_tangents(self.energies)
+        f1 = [i-np.sum(i*j)*j for i, j in zip(self.model_forces, self.middle_tangents)]
+        f2 = [i*j for i, j in zip(self.path.spring_forces, self.middle_tangents)]
+        self.forces = [i+j for i, j in zip(f1, f2)]
 
-    def run(self, callbacks=None, optimizer=SGD(0.02), n_steps=100, force_tol=0.1, verbose=True):
+    def get_ci_energies_forces(self, indices):
+        self.get_neb_energies_forces()
+        for i in indices:
+            if i < 1 or i > len(self.path) - 2:
+                raise ValueError('Index %d is at boundary' % i)
+            self.forces[i] = self.model_forces[i] - 2 * np.sum(self.model_forces[i] * self.middle_tangents[i-1]) * self.middle_tangents[i-1]
+
+    def run(self, callbacks=None, optimizer=SGD(0.02), n_steps=100, n_climb_steps=100, force_tol=0.1, verbose=True):
         callbacks = callbacks or CallbackList()
         history = History()
         if verbose:
@@ -34,17 +48,26 @@ class NEB:
         callbacks.set_model(self)
         optimizer.set_model(self)
         callbacks.opt_begin()
+        self._step(optimizer, callbacks, n_steps=n_steps, climbing=False)
+        if self.climbing:
+            # get indices with max energies
+            zipped = [(i, j) for i, j in enumerate(self.energies)]
+            sort = sorted(zipped, key=lambda x: x[1])[::-1]
+            indices = [i[0] for i in sort[:self.n_climbs]]
+            self._step(optimizer, callbacks, n_steps=n_climb_steps, climbing=True, indices=indices)
+        callbacks.opt_end()
+        return history
+
+    def _step(self, optimizer, callbacks, n_steps=100, climbing=False, indices=None):
         for i in range(n_steps):
             if self.stop:
                 break
-            self.update()
+            self.update(climbing=climbing, indices=indices)
             callbacks.step_begin(i)
             update = optimizer.step()
             for k in range(1, self.path.n_images-1):
                 self.path.images[k].move(update[k-1])
             callbacks.step_end(i)
-        callbacks.opt_end()
-        return history
 
     @property
     def energy_path(self):
