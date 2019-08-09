@@ -1,0 +1,2 @@
+include *.md requirements.txt requirements-ci.txt
+recursive-include mep *.py *.md
