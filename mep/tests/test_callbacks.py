@@ -41,7 +41,7 @@ class TestCallback(unittest.TestCase):
             basic.step_end(0)
         self.assertEqual(cm.output,
                          ['INFO:mep.callbacks:NEB run begins',
-                          'INFO:mep.callbacks:NEB run finishs',
+                          'INFO:mep.callbacks:NEB run finishes',
                           'INFO:mep.callbacks:Step 1, the NEB force norm is 3.742'])
 
     def test_history(self):

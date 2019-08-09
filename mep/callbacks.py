@@ -33,7 +33,7 @@ class BasicCallback(Callback):
         logger.info("NEB run begins")
 
     def opt_end(self):
-        logger.info("NEB run finishs")
+        logger.info("NEB run finishes")
 
     def step_end(self, n):
         forces = self.model.forces
