@@ -23,9 +23,6 @@ class TestPath(unittest.TestCase):
         self.assertTrue(np.linalg.norm(interps[-2].struct_or_mol.cart_coords - interps[-2].data) < 1e-3)
         self.assertTrue(isinstance(interps[1].struct_or_mol, Molecule))
 
-        path = Path(interps)
-        print(path)
-
     def test_path(self):
         mep = Path([[1, 2], [3, 4], [5, 0]])
         energies = [1, 2, 3]

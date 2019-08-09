@@ -1,6 +1,6 @@
 import numpy as np
 from abc import abstractmethod
-from copy import deepcopy
+from mep.path import Image
 
 
 class Model:
@@ -8,21 +8,21 @@ class Model:
     def predict_energy(self, image):
         pass
 
-    def predict_force(self, image, delta=0.0001):
-        image = np.atleast_2d(image).astype(np.float)
-        e0_all = [self.predict_energy(i)[0] for i in image]
-        shapes = image.shape
+    def predict_energy_and_forces(self, image, delta=0.00001):
+        if not isinstance(image, Image):
+            image = Image(image)
+        e0 = self.predict_energy(image)[0]
         forces = []
+        shapes = image.data.shape
         for i in range(shapes[0]):
-            e0 = e0_all[i]
             force = []
             for j in range(shapes[1]):
-                image_temp = deepcopy(image[i])
-                image_temp[j] += delta
+                image_temp = image.copy()
+                image_temp.data[i, j] += delta
                 e = self.predict_energy(image_temp)[0]
-                force.append((e-e0)/delta)
+                force.append(-(e-e0)/delta)
             forces.append(np.array(force))
-        return -np.array(forces)
+        return e0, np.array(forces)
 
 
 class LEPS(Model):
@@ -43,6 +43,8 @@ class LEPS(Model):
         self.alpha = alpha
 
     def predict_energy(self, image):
+        if isinstance(image, Image):
+            image = image.data
         image = np.atleast_2d(image)
         rab = image[:, 0]
         rbc = image[:, 1]
@@ -85,6 +87,8 @@ class LEPSHarm(LEPS):
         super().__init__(a=a, b=b, c=c, dab=dab, dbc=dbc, dac=dac, r0=r0, alpha=alpha)
 
     def predict_energy(self, image):
+        if isinstance(image, Image):
+            image = image.data
         image = np.atleast_2d(image)
         rab = image[:, 0]
         x = image[:, 1]

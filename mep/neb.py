@@ -11,7 +11,9 @@ class NEB:
         self.n_climbs = n_climbs
         self.history = []
         self.stop = False
-        self.energies = [0] * len(self.path)
+        start_energy = self.model.predict_energy(self.path.images[0])[0]
+        end_energy = self.model.predict_energy(self.path.images[-1])[0]
+        self.energies = [start_energy] + [0] * (len(self.path) - 2) + [end_energy]
         self.forces = [np.zeros_like(self.path[i].data) for i in range(len(self.path))]
         self.model_forces = [np.zeros_like(self.path[i].data) for i in range(len(self.path))]
         self.middle_tangents = [np.zeros_like(self.path[i].data) for i in range(len(self.path) - 2)]
@@ -23,9 +25,14 @@ class NEB:
             self.get_neb_energies_forces()
 
     def get_neb_energies_forces(self):
-        coords = self.path.inner_coords
-        self.model_forces = [self.model.predict_force(i) for i in coords]
-        self.energies = [self.model.predict_energy(i.data) for i in self.path.images]
+        energies = []
+        forces = []
+        for i in self.path.inner_images:
+            e, f = self.model.predict_energy_and_forces(i)
+            energies.append(e)
+            forces.append(f)
+        self.model_forces = forces
+        self.energies[1:-1] = energies
         self.middle_tangents = self.path.get_unit_tangents(self.energies)
         f1 = [i-np.sum(i*j)*j for i, j in zip(self.model_forces, self.middle_tangents)]
         f2 = [i*j for i, j in zip(self.path.spring_forces, self.middle_tangents)]

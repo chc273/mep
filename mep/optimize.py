@@ -1,7 +1,6 @@
 from scipy.optimize import minimize
 from monty.json import MSONable
 from abc import abstractmethod
-import numpy as np
 
 
 class ScipyOptimizer:

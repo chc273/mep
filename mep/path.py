@@ -4,6 +4,7 @@ from collections import Sized
 from pymatgen import Structure, Molecule, Site
 import numpy as np
 from mep.utils import interpolate_molecule
+from copy import deepcopy
 
 
 class Node:
@@ -31,13 +32,16 @@ class Image(Node):
             self.type = str(image.__class__)
             data = self._struct_or_mol.cart_coords
         elif isinstance(image, Image):
-            self.struct_or_mol = image.struct_or_mol
+            if hasattr(image, '_struct_or_mol') and hasattr(image._struct_or_mol, 'copy'):
+                self._struct_or_mol = image._struct_or_mol.copy()
+            else:
+                self._struct_or_mol = None
             self.type = image.type
-            data = image.data
+            data = image.data.copy()
         else:
-            self.structure_or_mol = None
+            self._structure_or_mol = None
             self.type = 'Simple'
-            data = np.atleast_2d(image)
+            data = np.atleast_2d(image).astype(np.float)
         super().__init__(data)
 
     def move(self, direction: np.ndarray) -> None:
@@ -101,7 +105,7 @@ class Image(Node):
         self._struct_or_mol = new_s
 
     def copy(self):
-        return Image(self)
+        return self.__class__(self)
 
 
 class Spring(Node):
