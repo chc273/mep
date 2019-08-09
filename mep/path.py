@@ -1,4 +1,3 @@
-from __future__ import annotations
 from typing import List, Union
 from collections.abc import Sized
 from pymatgen import Structure, Molecule, Site
@@ -25,7 +24,7 @@ class Image(Node):
     """
     Intermediate image, can be a structure, molecule or general coordinates
     """
-    def __init__(self, image: Union[Structure, Molecule, List, Image]):
+    def __init__(self, image: Union[Structure, Molecule, List, "Image"]):
         if isinstance(image, (Structure, Molecule)):
             self._struct_or_mol = image.copy()
             self.type = str(image.__class__)
@@ -55,14 +54,14 @@ class Image(Node):
         """
         Update the coordinates
         Args:
-            new_data:
+            new_data: new data
 
         Returns:
 
         """
         self.data = new_data
 
-    def interpolate(self, other: Image, n: int=5) -> List:
+    def interpolate(self, other: "Image", n: int=5) -> List:
         """
         Interpolate other image
         Args:
