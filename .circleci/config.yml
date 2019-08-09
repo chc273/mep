@@ -27,7 +27,7 @@ jobs:
             pip install --quiet -e .
             mkdir coverage_reports
             pytest --cov=mep --cov-report html:coverage_reports mep
-            coveralls
+            COVERALLS_REPO_TOKEN=8ByKBbvmBZuae3oChqzjoa79d6FIOPObv coveralls
           no_output_timeout: 3600
       - store_artifacts:
           path: coverage_reports/
