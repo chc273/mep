@@ -13,6 +13,7 @@ jobs:
             export PATH=$HOME/miniconda3/bin:$PATH
             if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.7; fi
             python3 -m venv venv
+            pip install pip --upgrade
             source activate test_env
             conda install --quiet --yes numpy scipy matplotlib sympy cython
             conda upgrade --quiet --all

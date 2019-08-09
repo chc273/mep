@@ -9,7 +9,7 @@ This package contains various methods for finding the minimal energy path in ato
 Currently the following methods are implemented:
 
 > Nudged elastic band method \[1]
-
+> 
 > Climbing image nudged elastic band method \[2]
 
 ## How to use
@@ -63,5 +63,5 @@ With only normal NEB, however, this `Ea` value is substantially smaller (`3.25 e
 ## References
 
 > \[1] Henkelman, G., & Jónsson, H. (2000). Improved tangent estimate in the nudged elastic band method for finding minimum energy paths and saddle points. The Journal of chemical physics, 113(22), 9978-9985.
-
+> 
 > \[2] Henkelman, G., Uberuaga, B. P., & Jónsson, H. (2000). A climbing image nudged elastic band method for finding saddle points and minimum energy paths. The Journal of chemical physics, 113(22), 9901-9904.
