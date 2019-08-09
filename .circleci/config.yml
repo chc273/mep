@@ -14,8 +14,9 @@ jobs:
             if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.7; fi
             python3 -m venv venv
             pip install pip --upgrade
+            pip install numpy 
             source activate test_env
-            conda install --quiet --yes numpy scipy matplotlib sympy cython
+            conda install --quiet --yes scipy matplotlib sympy cython
             conda upgrade --quiet --all
             pip install --quiet --ignore-installed -r requirements.txt -r requirements-ci.txt
 
