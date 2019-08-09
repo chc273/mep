@@ -6,15 +6,16 @@ jobs:
       - image: materialsvirtuallab/circle-ci-pmg-py3:0.0.2
     steps:
       - checkout
+
       - run:
           name: install dependencies
           command: |
             export PATH=$HOME/miniconda3/bin:$PATH
             if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.6; fi
+            python3 -m venv venv
             source activate test_env
             conda install --quiet --yes numpy scipy matplotlib sympy cython
             conda upgrade --quiet --all
-            pip install numpy --upgrade
             pip install --quiet --ignore-installed -r requirements.txt
 
       - run:
@@ -37,4 +38,5 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - py3test
+      - build
+
