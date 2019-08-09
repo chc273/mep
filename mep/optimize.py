@@ -1,5 +1,4 @@
 from scipy.optimize import minimize
-from monty.json import MSONable
 from abc import abstractmethod
 
 
@@ -12,7 +11,7 @@ class ScipyOptimizer:
         return minimize(func, x0, method=method, bounds=bounds, **kwargs)
 
 
-class Optimizer(MSONable):
+class Optimizer:
     def __init__(self):
         self.model = None
 

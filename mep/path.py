@@ -4,7 +4,6 @@ from collections import Sized
 from pymatgen import Structure, Molecule, Site
 import numpy as np
 from mep.utils import interpolate_molecule
-from copy import deepcopy
 
 
 class Node:
