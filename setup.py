@@ -19,7 +19,7 @@ setup(
     download_url='https://github.com/chc273/mep',
     keywords=["materials", "science", "nudged elastic band"],
     license='BSD',
-    install_requires=['numpy', 'pymatgen', 'scipy'],
+    install_requires=["numpy >= 1.9.0", "pymatgen", "scipy"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
