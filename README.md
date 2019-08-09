@@ -1,4 +1,5 @@
 # Minimum Energy Path Tools
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/525c7fac5e5045b3bc969c47a83cc265)](https://app.codacy.com/app/chc273/mep?utm_source=github.com&utm_medium=referral&utm_content=chc273/mep&utm_campaign=Badge_Grade_Dashboard)
 [![CircleCI](https://circleci.com/gh/chc273/mep.svg?style=svg)](https://circleci.com/gh/chc273/mep)
 [![Coverage Status](https://coveralls.io/repos/github/chc273/mep/badge.svg?branch=master)](https://coveralls.io/github/chc273/mep?branch=master)
 
