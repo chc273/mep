@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import List, Union
-from collections import Sized
+from collections.abc import Sized
 from pymatgen import Structure, Molecule, Site
 import numpy as np
 from mep.utils import interpolate_molecule

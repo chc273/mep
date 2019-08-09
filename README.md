@@ -1,4 +1,6 @@
 # Minimum Energy Path Tools
+[![CircleCI](https://circleci.com/gh/chc273/mep.svg?style=svg)](https://circleci.com/gh/chc273/mep)
+[![Coverage Status](https://coveralls.io/repos/github/chc273/mep/badge.svg?branch=master)](https://coveralls.io/github/chc273/mep?branch=master)
 
 ## Introduction 
 This package contains various methods for finding the minimal energy path in atom simulations.
