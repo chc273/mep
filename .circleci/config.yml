@@ -17,8 +17,7 @@ jobs:
             conda install --quiet --yes numpy scipy matplotlib sympy cython
             conda upgrade --quiet --all
             pip install numpy --upgrade
-            pip install pytest coveralls
-            pip install --quiet --ignore-installed -r requirements.txt
+            pip install --quiet --ignore-installed -r requirements.txt -r requirements-ci.txt
 
       - run:
           command: |
