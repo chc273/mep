@@ -10,7 +10,6 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            echo 'export COVERALLS_REPO_TOKEN="ByKBbvmBZuae3oChqzjoa79d6FIOPObv"' >> $BASH_ENV
             export PATH=$HOME/miniconda3/bin:$PATH
             if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.7; fi
             python3 -m venv venv
