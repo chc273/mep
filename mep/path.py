@@ -70,11 +70,12 @@ class Image(Node):
             n: number of total images
         Returns: a list of images
         """
-        if isinstance(self.struct_or_mol, Structure):
-            structures = self.struct_or_mol.interpolate(other.struct_or_mol, n)
-            return [Image(i) for i in structures]
-        elif isinstance(self.struct_or_mol, Molecule):
-            return [Image(i) for i in interpolate_molecule(self.struct_or_mol, other.struct_or_mol, n)]
+        if hasattr(self, '_struct_or_mol'):
+            if isinstance(self._struct_or_mol, Structure):
+                structures = self._struct_or_mol.interpolate(other._struct_or_mol, n)
+                return [Image(i) for i in structures]
+            elif isinstance(self._struct_or_mol, Molecule):
+                return [Image(i) for i in interpolate_molecule(self._struct_or_mol, other._struct_or_mol, n)]
         else:
             vec = other.data - self.data
             return [Image(self.data + vec * i / (n-1)) for i in range(n)]
@@ -148,12 +149,6 @@ class Path:
             self.images[i].link_next(self.springs[i])
             self.springs[i].link_next(self.images[i+1])
 
-    def move_images(self, forces, delta=0.1):
-        if len(forces) != self.n_inner:
-            raise ValueError('Too many forces, remember the ends are fixed')
-        for i, j in zip(self.inner_images, forces):
-            i.move(j * delta)
-
     @property
     def image_distances(self):
         return [0] + [np.linalg.norm(i-j) for i, j in zip(self.coords[:-1], self.coords[1:])]
@@ -225,7 +220,7 @@ class Path:
         self._k = new_k
 
 
-def _validate(structures: List[Structure]):
+def validate_structures(structures: List[Structure]):
     """
     Validate the structures so that all of them should have the same lattice
     Args:
@@ -236,4 +231,5 @@ def _validate(structures: List[Structure]):
     """
     lattices = [i.lattice for i in structures]
     if len(set(lattices)) > 1:
-        raise ValueError('Structures have more than one lattices!')
+        return False
+    return True
