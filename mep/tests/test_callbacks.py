@@ -3,12 +3,14 @@ from mep.callbacks import CallbackList, Callback, BasicCallback, History, StopOn
 
 
 class DummyPath:
-    def __init__(self, coords=[1, 1, 1]):
+    def __init__(self, coords=None):
+        coords = coords or [1, 1, 1]
         self.coords = coords
 
 
 class DummyModel:
-    def __init__(self, forces=[[1, 2, 3]]):
+    def __init__(self, forces=None):
+        forces = forces or [[1, 2, 3]]
         self.forces = forces
         self.path = DummyPath(forces[0])
 

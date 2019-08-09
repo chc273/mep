@@ -7,9 +7,9 @@ This package contains various methods for finding the minimal energy path in ato
 
 Currently the following methods are implemented:
 
-> Nudged elastic band method [1]
+> Nudged elastic band method \[1]
 
-> Climbing image nudged elastic band method [2]
+> Climbing image nudged elastic band method \[2]
 
 ## How to use
 
@@ -37,7 +37,6 @@ The results will be like the following
 
 ![LEPS example](./assets/leps.gif) ![LEPS_NEB](./assets/leps_ea.png) 
 
-
 Similar results can be obtained using the LEPS model with harmonics `LEPSHarm`
 
 ![LEPSHarm_example](./assets/lepsharm.gif) ![LEPS_NEB](./assets/lepsharm_ea.png) 
@@ -59,8 +58,9 @@ With CI-NEB
 
 We can see that using only 5 images, the CINEB gets `Ea = 3.63 eV`, the same as the one we ran with 101 images!
 With only normal NEB, however, this `Ea` value is substantially smaller (`3.25 eV`). 
+
 ## References
 
-> [1] Henkelman, G., & Jónsson, H. (2000). Improved tangent estimate in the nudged elastic band method for finding minimum energy paths and saddle points. The Journal of chemical physics, 113(22), 9978-9985.
+> \[1] Henkelman, G., & Jónsson, H. (2000). Improved tangent estimate in the nudged elastic band method for finding minimum energy paths and saddle points. The Journal of chemical physics, 113(22), 9978-9985.
 
-> [2] Henkelman, G., Uberuaga, B. P., & Jónsson, H. (2000). A climbing image nudged elastic band method for finding saddle points and minimum energy paths. The Journal of chemical physics, 113(22), 9901-9904.
+> \[2] Henkelman, G., Uberuaga, B. P., & Jónsson, H. (2000). A climbing image nudged elastic band method for finding saddle points and minimum energy paths. The Journal of chemical physics, 113(22), 9901-9904.

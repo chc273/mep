@@ -52,7 +52,7 @@ class TestPath(unittest.TestCase):
         tan = path.get_unit_tangents(energies)[0]
         self.assertTrue(np.linalg.norm(tan - np.array([[0.4472136, -0.89442719]]))<1e-2)
         with self.assertRaises(ValueError):
-            p = Path([1, 2], k=[1, 2, 3])
+            Path([1, 2], k=[1, 2, 3])
 
         self.assertTrue(str(path).startswith('Path with 3 images:'))
         self.assertTrue(repr(path) == str(path))
