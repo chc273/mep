@@ -11,7 +11,7 @@ jobs:
           name: install dependencies
           command: |
             export PATH=$HOME/miniconda3/bin:$PATH
-            if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.6; fi
+            if [ ! -d "/root/miniconda3/envs/test_env" ]; then conda create --quiet --yes --name test_env python=3.7; fi
             python3 -m venv venv
             source activate test_env
             conda install --quiet --yes numpy scipy matplotlib sympy cython
